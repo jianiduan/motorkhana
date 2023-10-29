@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+    <h3>{{ title }}</h3>
+    <form method="post" action="/driver_detail">
+        <select name="driver_id" id="select_1">
+            {% for i in driver_list %}
+                <option value="{{ i[0] }}" {% if i[0] == driver[0] %}selected="selected"{% endif %}>
+                    {{ i[1] }}{{ i[2] }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit">
+    </form>
+    <table class="table">
+        <tr>
+            <th>Course</th>
+            <th>Seconds 1</th>
+            <th>Cones 1</th>
+            <th>WD 1</th>
+            <th>RunTotal 1</th>
+            <th>Seconds 2</th>
+            <th>Cones 2</th>
+            <th>WD 2</th>
+            <th>RunTotal 2</th>
+            <th>RunTotal</th>
+        </tr>
+        {% for result in result_list %}
+            <tr>
+                {% for field in result %}
+                    <td>{{ field }}</td>
+
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

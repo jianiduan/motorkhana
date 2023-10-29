@@ -1,0 +1,189 @@
+{% extends "admin/admin_base.html" %}
+{% block content %}
+    <h3>{{ title }}</h3>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <select name="driver_id" id="select_1" class="form-control">
+                    {% for i in driver_list %}
+                        <option value="{{ i[0] }}" {% if i[0] == driver[0] %} selected{% endif %}>
+                            {{ i[1] }}{{ i[2] }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6">
+                <select name="course_id" id="select_2" class="form-control">
+                    {% for i in course_list %}
+                        <option value="{{ i[0] }}"  {% if i[0] == course[0] %} selected{% endif %}>
+                            {{ i[1] }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+
+
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewModal">
+        Add New Run
+    </button>
+    <div class="modal fade" id="addNewModal" tabindex="-1" role="dialog" aria-labelledby="addNewModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addNewModalLabel">Add New Run</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/add_runs" enctype="application/x-www-form-urlencoded">
+                        <div class="form-group">
+                            <label for="driverId">Driver</label>
+
+                            <select name="driver_id" class="form-control">
+                                {% for i in driver_list %}
+                                    <option value="{{ i[0] }}">
+                                        {{ i[1] }}{{ i[2] }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="courseId">Course</label>
+                            <select name="courseId" class="form-control">
+                                {% for i in course_list %}
+                                    <option value="{{ i[0] }}"  {% if i[0] == course[0] %} selected{% endif %}>
+                                        {{ i[1] }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="runNum">Run Number</label>
+                            <select name="runNum" class="form-control">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="seconds">Seconds</label>
+                            <input type="number" class="form-control" name="seconds">
+                        </div>
+                        <div class="form-group">
+                            <label for="cones">Cones</label>
+                            <input type="number" class="form-control" name="cones">
+                        </div>
+                        <div class="form-group">
+                            <label for="wd">Wd</label>
+                            <input type="number" class="form-control" name="wd" value="0">
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <table class="table">
+        <tr>
+            <th>Driver ID</th>
+            <th>Course ID</th>
+            <th>Run_num</th>
+            <th>Seconds</th>
+            <th>Cones</th>
+            <th>Wd</th>
+            <th>Operation</th>
+
+        </tr>
+        {% for result in run_list %}
+            <tr>
+                {% for field in result %}
+                    <td>{{ field }}</td>
+                {% endfor %}
+                <td>
+                    <div class="btn-group btn-group-sm" role="group">
+                        <a data-toggle="modal" data-target="#myModal{{ loop.index }}" class="btn btn-primary">
+                            <i class="fa fa-pencil"></i> Edit
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            <div class="modal fade" id="myModal{{ loop.index }}" tabindex="-1" role="dialog"
+                 aria-labelledby="myModal{{ loop.index }}Label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myModal{{ loop.index }}Label">Edit Item</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" action="/edit_runs" enctype="application/x-www-form-urlencoded"
+                                  id="form{{ loop.index }}">
+                                <div class="form-group">
+                                    <label for="driverId">Driver ID</label>
+                                    <input type="text" class="form-control" value="{{ result[0] }}" readonly name="driver_id">
+                                </div>
+                                <div class="form-group">
+                                    <label for="courseId">Course ID</label>
+                                    <input type="text" class="form-control" value="{{ result[1] }}" readonly name="course_id">
+                                </div>
+                                <div class="form-group">
+                                    <label for="runNum">Run Number</label>
+                                    <input type="text" class="form-control" value="{{ result[2] }}" readonly name="run_number">
+                                </div>
+                                <div class="form-group">
+                                    <label for="seconds">Seconds</label>
+                                    <input type="number" class="form-control" value="{{ result[3] }}" name="seconds">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cones">Cones</label>
+                                    <input type="number" class="form-control" value="{{ result[4] }}" name="cones">
+                                </div>
+                                <div class="form-group">
+                                    <label for="wd">Wd</label>
+                                    <input type="number" class="form-control" value="{{ result[5] }}" name="wd">
+                                </div>
+
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+    </table>
+    <script>
+        let select1 = document.getElementById("select_1");
+        let select2 = document.getElementById("select_2");
+        select1.addEventListener("change", function () {
+            let selectedValue = select1.value;
+            let url = "/edit_runs?driver_id=" + selectedValue;
+            window.location.href = url;
+        });
+
+        select2.addEventListener("change", function () {
+            let selectedValue = select2.value;
+            let url = "/edit_runs?course_id=" + selectedValue;
+            window.location.href = url;
+        });
+    </script>
+
+
+{% endblock %}

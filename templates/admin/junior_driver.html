@@ -1,26 +1,26 @@
-{% extends "base.html" %}
+{% extends "admin/admin_base.html" %}
 {% block content %}
     <!-- driver_list is the variable passed in containing the list of drivers -->
     <!-- Add code to display a list of drivers -->
+    <form method="get" action="/junior_driver_list">
+        <input type="text" class="form-control" style="width: 50%;margin-left: 25%;margin-top: 3%" name="keyword">
+    </form>
 
     <h2>Driver List</h2>
     <table class="table ">
         <tr>
-            <th>ID</th>
+            <th>Driver ID</th>
             <th>First Name</th>
             <th>Surname</th>
             <th>Date Of Birth</th>
             <th>Age</th>
-            <th>Caregiver</th>
             <th>Car</th>
+            <th>Caregiver</th>
         </tr>
         {% for driver in driver_list %}
             <tr>
                 {% for field in driver %}
-
                     <td>{{ field }}</td>
-
-
                 {% endfor %}
             </tr>
         {% endfor %}

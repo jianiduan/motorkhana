@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+    <h3>{{ title }}</h3>
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Car</th>
+            {% for field in course_name_list %}
+                <th>{{ field }}</th>
+            {% endfor %}
+            <th>RunTotal</th>
+            <th>Prize</th>
+        </tr>
+        {% for result in result_list %}
+            <tr>
+                {% for field in result %}
+                    {% if loop.index ==4 %}
+                        {% for i in field %}
+                            <td>{{ i }}</td>
+                        {% endfor %}
+                    {% else %}
+                        <td>{{ field }}</td>
+                    {% endif %}
+
+                {% endfor %}
+                {% if loop.index==1 %}
+                    <td>cup</td>
+                {% elif loop.index == 2 or loop.index == 3 or loop.index == 4 %}
+                    <td>prize</td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

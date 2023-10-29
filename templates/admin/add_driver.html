@@ -1,0 +1,63 @@
+{% extends "admin/admin_base.html" %}
+{% block content %}
+    <div class="container mt-5" style="width: 50%">
+        <h1>Add Driver</h1>
+        <form method="POST" action="/add_driver">
+            <div class="form-group">
+                <label for="first_name">First Name:</label>
+                <input type="text" class="form-control" name="first_name" id="first_name" required>
+            </div>
+            <div class="form-group">
+                <label for="surname">Surname:</label>
+                <input type="text" class="form-control" name="surname" id="surname" required>
+            </div>
+            <div class="form-group">
+                <label for="surname">Car</label>
+                <select class="form-control" name="car" id="car">
+                    {% for car in car_list %}
+                        <option value="{{ car[0] }}">{{ car[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="is_minor">Is the driver a minor?</label>
+                <select class="form-control" name="is_minor" id="is_minor">
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                </select>
+            </div>
+
+            <div id="minor_fields" style="display: none;">
+                <div class="form-group">
+                    <label for="date_of_birth">Date of Birth:</label>
+                    <input type="date" class="form-control" name="date_of_birth" id="date_of_birth">
+                </div>
+                <div class="form-group">
+                    <label for="caregiver">Caregiver:</label>
+                    <select class="form-control" name="caregiver" id="caregiver">
+                        <option value="">-- Select Caregiver --</option>
+                        {% for caregiver in caregiver_list %}
+                            <option value="{{ caregiver[0] }}">{{ caregiver[1] }} {{ caregiver[2] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        const isMinorSelect = document.getElementById("is_minor");
+        const minorFields = document.getElementById("minor_fields");
+
+        isMinorSelect.addEventListener("change", () => {
+            if (isMinorSelect.value === "yes") {
+                minorFields.style.display = "block";
+            } else {
+                minorFields.style.display = "none";
+            }
+        });
+    </script>
+{% endblock %}

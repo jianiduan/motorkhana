@@ -3,26 +3,13 @@
 
     <h2>Course List</h2>
     <h3>current competition courses</h3>
+    <div>
+        <div>
+            {% for course in course_list %}
+                <img src="/static/{{ course[2] }}" alt="{{ course[1] }}" height="500px" width="500px">
+            {% endfor %}
+        </div>
 
-    <!-- code to display list of courses-->
-    <table>
-        <tr>
-            <th>Course</th>
-            <th>Name</th>
-            <th>Map diagram</th>
-        </tr>
-        {% for course in course_list %}
-            <tr>
-                {% for field in course %}
-                    {% if loop.index == 3 %}
-                        <td><img src="/static/{{ field }}" alt="map diagram" height="100px" width="100px"></td>
-                    {% else %}
-                        <td>{{ field }}</td>
-                    {% endif %}
-
-                {% endfor %}
-            </tr>
-        {% endfor %}
-    </table>
+    </div>
 
 {% endblock %}
