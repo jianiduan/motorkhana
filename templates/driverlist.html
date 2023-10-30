@@ -17,10 +17,11 @@
         {% for driver in driver_list %}
             <tr>
                 {% for field in driver %}
-
-                    <td>{{ field }}</td>
-
-
+                    {% if loop.index ==5 %}
+                        <td>{{ field }}</td>
+                    {% else %}
+                        <td>{{ field }}</td>
+                    {% endif %}
                 {% endfor %}
             </tr>
         {% endfor %}

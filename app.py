@@ -35,7 +35,6 @@ def listdrivers():
     connection = getCursor()
     connection.execute("SELECT * FROM driver;")
     driverList = connection.fetchall()
-    print(driverList)
     return render_template("driverlist.html", driver_list=driverList)
 
 
@@ -65,11 +64,8 @@ def showgraph():
 
         for run in runList:
             crs_id = run[1]
-
             result_list = result_dict[crs_id]
-
             result_list.append([run[3], run[4], run[5]])
-
             result_dict[crs_id] = result_list
 
         result_list = []
@@ -355,7 +351,6 @@ def junior_driver_list():
 @app.route("/admin_driver_list", methods=["GET", "POST"])
 def admin_driver_list():
     keyword = request.args.get("keyword", "")
-    print(keyword)
     if not keyword:
         sql = """SELECT
         d.driver_id,
@@ -386,11 +381,9 @@ def admin_driver_list():
 @app.route("/add_driver", methods=["GET", "POST"])
 def add_driver():
     if request.method == "POST":
-        print(request.form)
         first_name = request.form["first_name"]
         surname = request.form["surname"]
         car = request.form["car"]
-        print(first_name, surname, car)
 
         date_of_birth = request.form["date_of_birth"]
         caregiver = request.form["caregiver"]
@@ -423,19 +416,17 @@ def add_driver():
 @app.route("/edit_runs", methods=["GET", "POST"])
 def edit_runs():
     if request.method == 'POST':
-        print(request.form)
         driver_id = request.form.get('driver_id')
         course_id = request.form.get('course_id')
         run_number = request.form.get('run_number')
         seconds = request.form.get('seconds')
         cones = request.form.get('cones')
         wd = request.form.get('wd')
-        print(driver_id, course_id, run_number, seconds, cones, wd)
         if not str(cones).isdigit():
             cones = None
         connection = getCursor()
 
-        # 修改dr_id ,crs_id,run_num的为driver_id,course_id,run_number行的 seconds，cones，wd
+        # change the run
         connection.execute("UPDATE run SET seconds = %s, cones = %s, wd = %s WHERE dr_id = %s AND crs_id = %s AND "
                            "run_num = %s;", (seconds, cones, wd, driver_id, course_id, run_number,))
 
